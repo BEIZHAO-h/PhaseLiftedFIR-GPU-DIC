@@ -1,57 +1,39 @@
 # PhaseLiftedFIR GPU-DIC
 
-CUDA-accelerated two-dimensional digital image correlation centered on phase-lifted finite-impulse-response (FIR) interpolation.
+CUDA-accelerated two-dimensional digital image correlation with phase-lifted finite-impulse-response (FIR) interpolation.
 
-## Overview
+## Features
 
-PhaseLiftedFIR GPU-DIC is a GPU implementation for pointwise displacement measurement in grayscale image sequences. Its main contribution is a phase-lifted FIR interpolation path designed for efficient subpixel image evaluation within an affine inverse-compositional DIC workflow.
-
-The project also contains two reference interpolation paths:
-
-- **Phase-lifted FIR interpolation** — the primary method of this project;
-- Direct texture interpolation — a simple reference path;
-- Cubic B-spline interpolation — a smooth reference path.
-
-The reference paths share the same measurement framework and are provided for controlled comparison and compatibility. They are not the primary focus of this repository.
-
-## Key capabilities
-
-- CUDA-accelerated 2D DIC on NVIDIA GPUs;
-- pointwise displacement estimation from image sequences;
+- GPU-accelerated pointwise 2D DIC for grayscale image sequences;
+- phase-lifted FIR interpolation for subpixel image evaluation;
 - affine inverse-compositional iterative refinement;
-- subpixel interpolation through the phase-lifted FIR path;
-- displacement-gradient and strain-related output fields;
-- convergence, iteration, quality, and status information;
+- displacement-gradient and strain-related outputs;
+- convergence, correlation-quality, iteration, and status fields;
 - binary and CSV result export.
 
-## Input and output
+Direct texture and cubic B-spline interpolation are also available as reference paths within the same measurement framework.
 
-The solver accepts a folder of grayscale reference and target images together with a binary region-of-interest (ROI) mask. It estimates displacement at the nonzero mask points and writes run settings, summary information, and optional frame-level results.
+## Input
 
-Input images must have identical dimensions. The first image in filename order is used as the reference image, and the remaining images are processed as target frames.
+The solver uses:
 
-## Project status
+- a folder containing grayscale reference and target images;
+- a binary region-of-interest (ROI) mask.
 
-This public repository currently serves as the project landing page. The complete source code is maintained in a private development repository and will be released with a versioned tag after the associated manuscript has been accepted.
+All images must have identical dimensions. The first image in filename order is treated as the reference image, and the remaining images are processed as target frames. Nonzero pixels in the ROI mask define the points of interest.
 
-Until then, this page provides the project description and release information. It does not contain the CUDA implementation or the experimental datasets.
+## Output
 
-## Planned source release
+A run produces a result directory containing the run settings and summary information. Optional frame-level displacement, gradient, strain, quality, convergence, iteration, and status data can be written in binary or CSV format.
 
-The source release is planned to include:
+## Source availability
 
-- the CUDA solver implementation;
-- Windows build instructions and project files;
-- the phase-lifted FIR configuration;
-- the direct and cubic B-spline reference configurations;
-- small example image sets and ROI masks;
-- output-format and reproducibility documentation;
-- license and third-party notices.
+The source release is in preparation. This repository currently contains the project description; the CUDA implementation and example data will be added in a subsequent version.
 
 ## Citation
 
-A versioned software release and citation information will be added when the source code becomes publicly available. Before that release, please refer to this repository as the project page for PhaseLiftedFIR GPU-DIC.
+A versioned release and citation information will be provided with the source distribution.
 
 ## License
 
-The planned source release will use the MIT License and will include the complete license text and third-party notices.
+MIT License. See [LICENSE](LICENSE) for the license text.

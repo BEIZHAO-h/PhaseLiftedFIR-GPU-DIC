@@ -1,39 +1,46 @@
 # PhaseLiftedFIR GPU-DIC
 
-CUDA-accelerated two-dimensional digital image correlation with phase-lifted finite-impulse-response (FIR) interpolation.
+**High-accuracy and computationally efficient 2D digital image correlation using CUDA-accelerated phase-lifted FIR texture sampling.**
 
-## Features
+> **Release status:** The source code and example datasets will be made publicly available upon acceptance of the associated paper.
 
-- GPU-accelerated pointwise 2D DIC for grayscale image sequences;
-- phase-lifted FIR interpolation for subpixel image evaluation;
-- affine inverse-compositional iterative refinement;
-- displacement-gradient and strain-related outputs;
-- convergence, correlation-quality, iteration, and status fields;
-- binary and CSV result export.
+## Overview
 
-Direct texture and cubic B-spline interpolation are also available as reference paths within the same measurement framework.
+PhaseLiftedFIR GPU-DIC is a CUDA-accelerated implementation of two-dimensional digital image correlation (2D-DIC) for full-field displacement and strain measurement.
 
-## Input
+The core method introduces a **phase-lifted finite impulse response (FIR) texture representation** to improve the efficiency of subpixel intensity reconstruction. Instead of performing high-quality reconstruction repeatedly during DIC iterations, a fixed 10-tap half-phase FIR filter preconstructs intensity samples at half-integer pixel positions. These samples are interleaved with the original image intensities to form a texture at twice the original spatial resolution. Subsequent subpixel intensity evaluation requires only **a single hardware bilinear texture query**.
 
-The solver uses:
+This approach substantially reduces repeated reconstruction costs while maintaining high-quality subpixel measurement performance.
 
-- a folder containing grayscale reference and target images;
-- a binary region-of-interest (ROI) mask.
+## Key Features
 
-All images must have identical dimensions. The first image in filename order is treated as the reference image, and the remaining images are processed as target frames. Nonzero pixels in the ROI mask define the points of interest.
+- **Phase-lifted FIR texture representation** for efficient subpixel intensity sampling.
+- **FIR-aligned reference gradients** for consistent target-image reconstruction and reference-side linearization.
+- **CUDA-accelerated 2D-DIC** for high-resolution images and dense full-field measurement.
+- **Reference implementations** of direct texture interpolation and cubic B-spline interpolation within the same GPU-DIC framework.
 
-## Output
+## Development Environment
 
-A run produces a result directory containing the run settings and summary information. Optional frame-level displacement, gradient, strain, quality, convergence, iteration, and status data can be written in binary or CSV format.
+The implementation has been developed, compiled, and tested in the following environment:
 
-## Source availability
+| Component         | Configuration                           |
+| ----------------- | --------------------------------------- |
+| Operating system  | Windows 11 Home                         |
+| GPU               | NVIDIA GeForce RTX 5060 Laptop GPU      |
+| CUDA Toolkit      | 12.8.93                                 |
+| CUDA architecture | `sm_120`                                |
+| Build tools       | Visual Studio 2022 Build Tools 17.14.35 |
+| Compiler          | MSVC 14.44.35207                        |
+| OpenCV            | 4.10.0                                  |
 
-The source release is in preparation. This repository currently contains the project description; the CUDA implementation and example data will be added in a subsequent version.
+## Source Code
+
+The CUDA implementation, build instructions, and example datasets will be released in this repository upon acceptance of the associated paper.
 
 ## Citation
 
-A versioned release and citation information will be provided with the source distribution.
+Citation information for the associated paper and software will be provided when the source code is released.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for the license text.
+MIT License. See [LICENSE](LICENSE) for details.
